@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-marketplace-schema.json",
+  "name": "ti-plugin-marketplace",
+  "owner": {
+    "name": "sganot-r7",
+    "url": "https://github.com/sganot-r7"
+  },
+  "description": "TI Service Test Plugin for Claude Code",
+  "plugins": [
+    {
+      "name": "ti-plugin",
+      "source": ".",
+      "description": "Claude Code plugin for generating service test infrastructure with k8s, MockServer, and emulators",
+      "version": "1.0.0",
+      "author": {
+        "name": "sganot"
+      }
+    }
+  ]
+}
