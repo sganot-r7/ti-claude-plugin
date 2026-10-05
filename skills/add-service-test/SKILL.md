@@ -16,7 +16,7 @@ Add a new test case to an existing service test suite in `ti-service-test`. This
 
 Read the current test directory to understand what's available:
 
-1. **Find the test directory**: Look in `/Users/sganot/code/ti-service-test/` for the service (user should be in the service test directory, or specify which service)
+1. **Find the test directory**: Look in the `ti-service-test` repo checkout (usually `~/code/ti-service-test/`; if it isn't there, find it or ask the user) for the service (user should be in the service test directory, or specify which service)
 2. **Read existing tests**: What flows are already covered?
 3. **Read conftest.py / utils/**: What fixtures, factories, clients, and mocks are available?
 4. **Read kubernetes/settings.env**: What services are configured?
@@ -150,7 +150,7 @@ After generating the test:
 - kubernetes/kustomization.yaml (updated, if new dependency)
 
 ### Run:
-cd /Users/sganot/code/ti-service-test/<service_slug>
+cd <ti-service-test>/<service_slug>
 docker compose up -d
 poetry run pytest tests/test_<flow>.py -vv
 

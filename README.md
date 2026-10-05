@@ -21,7 +21,7 @@ The generated tests use:
 
 Before using this plugin, ensure you have:
 
-- [ti-service-test](https://github.com/yourorg/ti-service-test) repository cloned at `/Users/sganot/code/ti-service-test`
+- [ti-service-test](https://github.com/Intsights/ti-service-test) repository cloned locally (e.g. `~/code/ti-service-test`)
 - Python 3.9+ with Poetry installed
 - Docker and Docker Compose
 - k3d (for local Kubernetes testing)
@@ -32,8 +32,9 @@ Before using this plugin, ensure you have:
 ### From GitHub
 
 ```bash
-# Install directly from GitHub
-/plugin install https://github.com/sganot/ti-plugin
+# Add the marketplace, then install the plugin
+/plugin marketplace add https://github.com/sganot-r7/ti-claude-plugin.git
+/plugin install ti-plugin@ti-plugin-marketplace
 
 # Reload plugins
 /reload-plugins
@@ -43,7 +44,7 @@ Before using this plugin, ensure you have:
 
 ```bash
 # Test the plugin locally without installing
-claude --plugin-dir /Users/sganot/code/ti-plugin
+claude --plugin-dir ~/code/ti-claude-plugin
 ```
 
 ## Skills
@@ -59,7 +60,7 @@ Generates complete service test infrastructure for a microservice.
 
 **Example:**
 ```bash
-/ti-plugin:setup-service-tests /Users/sganot/code/ti-my-service
+/ti-plugin:setup-service-tests ~/code/ti-my-service
 ```
 
 **What it does:**
@@ -180,19 +181,20 @@ Read-only search of prod logs in the `logs-elasticsearch` cluster (Kibana: logs-
 Claude uses it automatically when you ask about prod logs, errors, or trace IDs.
 
 **Setup (once, and again whenever the cookie expires):** open Kibana in the browser (VPN/WARP on), copy the
-`CF_Authorization`, `CF_AppSession` and `sid` cookies from DevTools → Application → Cookies, then run:
-```bash
-pbpaste | python3 ~/.claude/plugins/cache/ti-plugin-marketplace/ti-plugin/<version>/skills/searching-es-logs/set_cookie.py
-```
-The cookie is saved to `~/.config/es-logs/cookie`.
+`CF_Authorization`, `CF_AppSession` and `sid` cookies from DevTools → Application → Cookies, then ask Claude to
+search ES logs. When the cookie is missing or expired, Claude stops and gives you the exact
+`! pbpaste | python3 .../set_cookie.py` command to run.
+The cookie is saved to `~/.config/es-logs/cookie` (mode 600).
 
 ### 4. searching-firestore
 
 Read-only Firestore lookups (GET, runQuery, aggregation count only) over the REST API.
 Claude uses it automatically when you ask about Firestore docs or collections (e.g. `domains_queries_v2`).
 
-**Setup:** `gcloud auth login` with an account that can read the project. The default project is `intsights` (prod);
-set `FS_PROJECT=intsights-dev-2` to change it.
+**Setup:** `gcloud auth login` with an account that can read the project.
+
+> ⚠️ The default project is **`intsights` (prod)**;
+set `FS_PROJECT=intsights-dev-2` (or ask Claude to use dev) to change it.
 
 ## Testing Your Plugin Changes
 
@@ -200,8 +202,8 @@ After making modifications to the plugin:
 
 ```bash
 # Test locally
-cd /Users/sganot/code
-claude --plugin-dir ./ti-plugin
+cd ~/code
+claude --plugin-dir ./ti-claude-plugin
 
 # Verify skills are loaded
 /skills
@@ -218,7 +220,7 @@ claude --plugin-dir ./ti-plugin
 ### With Docker Compose (Recommended for quick testing)
 
 ```bash
-cd /Users/sganot/code/ti-service-test/<service_slug>
+cd ~/code/ti-service-test/<service_slug>
 
 # Start infrastructure
 docker compose up -d
@@ -233,7 +235,7 @@ docker compose down
 ### With Tilt (Full Kubernetes environment)
 
 ```bash
-cd /Users/sganot/code/ti-service-test/<service_slug>
+cd ~/code/ti-service-test/<service_slug>
 
 # Start Tilt
 tilt --namespace=<service-name> up
@@ -291,15 +293,16 @@ git commit -m "Update skill instructions"
 git push origin main
 
 # Users can update with
-/plugin update ti-plugin
+/plugin marketplace update ti-plugin-marketplace
+/plugin update ti-plugin@ti-plugin-marketplace
 ```
 
 ## Support
 
 For issues or questions:
-- Check the [ti-service-test documentation](https://github.com/yourorg/ti-service-test)
+- Check the [ti-service-test documentation](https://github.com/Intsights/ti-service-test)
 - Review existing test examples in ti-service-test repository
-- File issues on the [plugin repository](https://github.com/sganot/ti-plugin/issues)
+- File issues on the [plugin repository](https://github.com/sganot-r7/ti-claude-plugin/issues)
 
 ## License
 

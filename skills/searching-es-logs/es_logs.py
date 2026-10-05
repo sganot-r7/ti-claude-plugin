@@ -49,9 +49,9 @@ def load_cookie():
         with open(COOKIE_FILE, encoding="utf-8") as f:
             cookie = f.read().strip()
     except FileNotFoundError:
-        die(f"cookie file {COOKIE_FILE} not found. Ask the user to refresh it.")
+        die(f"cookie file {COOKIE_FILE} not found. Ask the user to refresh it.", 2)
     if not cookie:
-        die(f"cookie file {COOKIE_FILE} is empty. Ask the user to refresh it.")
+        die(f"cookie file {COOKIE_FILE} is empty. Ask the user to refresh it.", 2)
     return cookie
 
 
@@ -133,7 +133,10 @@ def trunc(v):
 
 def cmd_search(index, body_arg, raw=False):
     body = read_body(body_arg, SEARCH_KEYS)
-    body["size"] = min(int(body.get("size", 20)), MAX_SIZE)
+    size = body.get("size", 20)
+    if not isinstance(size, int) or isinstance(size, bool) or size < 0:
+        die(f"size must be a non-negative integer, got {size!r}")
+    body["size"] = min(size, MAX_SIZE)
     body.setdefault("track_total_hits", True)
     body.setdefault("sort", [{"@timestamp": "desc"}])
     res = es_get(f"{check_index(index)}/_search", body=body)
