@@ -4,7 +4,7 @@ A Claude Code plugin for generating comprehensive service test infrastructure fo
 
 ## Overview
 
-This plugin contains two skills that work together to create and maintain integration test suites:
+This plugin contains skills for creating and maintaining integration test suites, plus read-only skills for searching prod ES logs and Firestore:
 
 1. **setup-service-tests**: Generates complete test infrastructure from scratch
 2. **add-service-test**: Adds new test cases to existing test suites
@@ -173,6 +173,26 @@ class TestFlowName:
         # Test error handling
         pass
 ```
+
+### 3. searching-es-logs
+
+Read-only search of prod logs in the `logs-elasticsearch` cluster (Kibana: logs-kibana.prod.internal.ti.r7ops.com).
+Claude uses it automatically when you ask about prod logs, errors, or trace IDs.
+
+**Setup (once, and again whenever the cookie expires):** open Kibana in the browser (VPN/WARP on), copy the
+`CF_Authorization`, `CF_AppSession` and `sid` cookies from DevTools → Application → Cookies, then run:
+```bash
+pbpaste | python3 ~/.claude/plugins/cache/ti-plugin-marketplace/ti-plugin/<version>/skills/searching-es-logs/set_cookie.py
+```
+The cookie is saved to `~/.config/es-logs/cookie`.
+
+### 4. searching-firestore
+
+Read-only Firestore lookups (GET, runQuery, aggregation count only) over the REST API.
+Claude uses it automatically when you ask about Firestore docs or collections (e.g. `domains_queries_v2`).
+
+**Setup:** `gcloud auth login` with an account that can read the project. The default project is `intsights` (prod);
+set `FS_PROJECT=intsights-dev-2` to change it.
 
 ## Testing Your Plugin Changes
 
