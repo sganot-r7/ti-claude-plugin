@@ -183,7 +183,7 @@ Claude uses it automatically when you ask about prod logs, errors, or trace IDs.
 **Setup (once, and again whenever the cookie expires):** open Kibana in the browser (VPN/WARP on), copy the
 `CF_Authorization`, `CF_AppSession` and `sid` cookies from DevTools → Application → Cookies, then ask Claude to
 search ES logs. When the cookie is missing or expired, Claude stops and gives you the exact
-`! pbpaste | python3 .../set_cookie.py` command to run (on Linux use `xclip -o -selection clipboard` instead of `pbpaste`).
+`! pbpaste | python3 .../set_cookie.py` command to run.
 The cookie is saved to `~/.config/es-logs/cookie` (mode 600).
 
 ### 4. searching-firestore
