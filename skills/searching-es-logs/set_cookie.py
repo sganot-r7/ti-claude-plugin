@@ -6,7 +6,6 @@ Application -> Cookies table (tab/space separated rows). Keeps only the
 cookies Kibana needs: CF_Authorization, CF_AppSession, sid.
 
   pbpaste | python3 <skill dir>/set_cookie.py
-  xclip -o -selection clipboard | python3 <skill dir>/set_cookie.py   # Linux
 """
 import os
 import re
