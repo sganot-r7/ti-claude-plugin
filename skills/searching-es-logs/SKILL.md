@@ -22,7 +22,7 @@ $ES search INDEX '{"query":{...},"size":20}'  # default size 20, max 500, sorted
 Long strings are truncated to 600 chars; pass `--raw` for the full response only when needed.
 
 **Exit code 2 / "COOKIE EXPIRED"** → stop and ask the user to run:
-`! pbpaste | python3 <base dir>/set_cookie.py` (write out the real absolute path for them)
+`! pbpaste | python3 <base dir>/set_cookie.py` (write out the real absolute path for them) — on Linux use `xclip -o -selection clipboard` instead of `pbpaste`
 (after copying cookies from Kibana DevTools). Do not retry. "cannot reach" → ask about VPN/WARP.
 
 ## Where logs are

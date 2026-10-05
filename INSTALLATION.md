@@ -2,10 +2,11 @@
 
 ## Quick Install
 
-Install the ti-plugin directly from GitHub:
+Add the marketplace from GitHub, then install the plugin:
 
 ```bash
-/plugin install https://github.com/sganot-r7/ti-claude-plugin
+/plugin marketplace add https://github.com/sganot-r7/ti-claude-plugin.git
+/plugin install ti-plugin@ti-plugin-marketplace
 /reload-plugins
 ```
 
@@ -20,13 +21,15 @@ Check that the skills are loaded:
 You should see:
 - `ti-plugin:setup-service-tests`
 - `ti-plugin:add-service-test`
+- `ti-plugin:searching-es-logs` (read-only prod ES logs; needs VPN/WARP + Kibana cookie, see README)
+- `ti-plugin:searching-firestore` (read-only Firestore; needs `gcloud auth login`, defaults to prod `intsights`)
 
 ## Usage
 
 ### Generate Service Test Infrastructure
 
 ```bash
-/ti-plugin:setup-service-tests /Users/sganot/code/ti-my-service
+/ti-plugin:setup-service-tests ~/code/ti-my-service
 ```
 
 This will:
@@ -54,7 +57,8 @@ After initial setup, add more tests:
 To get the latest version:
 
 ```bash
-/plugin update ti-plugin
+/plugin marketplace update ti-plugin-marketplace
+/plugin update ti-plugin@ti-plugin-marketplace
 /reload-plugins
 ```
 
@@ -63,7 +67,7 @@ To get the latest version:
 To test plugin changes locally:
 
 ```bash
-claude --plugin-dir /Users/sganot/code/ti-plugin
+claude --plugin-dir ~/code/ti-claude-plugin
 ```
 
 ## Uninstall
@@ -79,7 +83,7 @@ To remove the plugin:
 ### Plugin not found
 - Verify the GitHub repository is accessible
 - Check your network connection
-- Try reinstalling: `/plugin uninstall ti-plugin` then `/plugin install ...`
+- Try reinstalling: `/plugin uninstall ti-plugin` then `/plugin install ti-plugin@ti-plugin-marketplace`
 
 ### Skills not appearing
 - Run `/reload-plugins` after installation
@@ -87,7 +91,7 @@ To remove the plugin:
 - Check plugin is listed in `/plugin list`
 
 ### Skills not executing correctly
-- Ensure ti-service-test repository is at `/Users/sganot/code/ti-service-test`
+- Ensure the [ti-service-test](https://github.com/Intsights/ti-service-test) repository is cloned locally (e.g. `~/code/ti-service-test`)
 - Verify Python/Poetry is installed
 - Check Docker is running (for generated tests)
 
