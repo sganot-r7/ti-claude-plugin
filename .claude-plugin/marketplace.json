@@ -11,7 +11,7 @@
       "name": "ti-plugin",
       "source": ".",
       "description": "Claude Code plugin for generating service test infrastructure with k8s, MockServer, and emulators",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "author": {
         "name": "sganot"
       }
